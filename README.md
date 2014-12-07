@@ -1,9 +1,11 @@
 Digital Rain
 ===============
 
-A Swing project inspired by the popular graphical effect from the Matrix where characters fall from the top of the window downwards. In the Matrix movie series, the output of falling green code on computer terminals depicts actively of what's occurring in the computer simulation known as the Matrix.
+A Swing project inspired by the popular graphical effect from the Matrix where characters fall from the top of the window downwards. In the Matrix movie series, the output of falling green code on computer terminals depicts the activity of what's occurring in the computer simulation known as the Matrix.
 
 The project builds an executable Jar file to run a program that contains the effect and various controls.
+
+![]("screenshot/exampleScreenshot.png")
 
 ## Requirements
 
