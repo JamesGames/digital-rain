@@ -1,0 +1,3 @@
+[submodule "build-dependencies/easy-sprite"]
+	path = build-dependencies/easy-sprite
+	url = https://github.com/JamesGames/easy-sprite
