@@ -11,7 +11,7 @@ The project builds an executable Jar file to run a program that contains the eff
 
 ## Installation
 
-git clone --recursive https://github.com/JamesGames/
+git clone --recursive https://github.com/JamesGames/digital-rain
 
 If you did not use the --recursive option, or if more git submodules are added later and you wish to pull those ones, then you can run following command afterwards:
 
