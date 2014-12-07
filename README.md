@@ -5,7 +5,7 @@ A Swing project inspired by the popular graphical effect from the Matrix where c
 
 The project builds an executable Jar file to run a program that contains the effect and various controls.
 
-![]("screenshot/exampleScreenshot.png")
+![](screenshot/exampleScreenshot.png)
 
 ## Requirements
 
