@@ -3,16 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-
     <groupId>org.jamesgames</groupId>
-    <artifactId>digital-rain</artifactId>
+    <artifactId>digital-rain-parent</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-
     <name>Digital Rain</name>
-    <description>A Swing project inspired on the popular graphical effect from the Matrix where characters fall from the top of the window downwards.</description>
-
+    <description>Digital Rain Parent, this maven build is used to package together build dependencies. The executable jar for the application is built via the module digital-rain.</description>
     <developers>
         <developer>
             <id>jamesjamesjames</id>
@@ -23,51 +19,6 @@
 
     <modules>
         <module>build-dependencies/easy-sprite</module>
+        <module>digital-rain</module>
     </modules>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>org.jamesgames.digitalrain.main.Main</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
-    <dependencies>
-        <dependency>
-            <groupId>net.jcip</groupId>
-            <artifactId>jcip-annotations</artifactId>
-            <version>1.0</version>
-        </dependency>
-    </dependencies>
-
-
-
 </project>
