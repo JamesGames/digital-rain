@@ -42,7 +42,7 @@ or
 
 * "Documents and Settings\{your-username}\.m2" on Windows
 
-On a successful build you should find a directory named target within the directory you cloned the project to, and within there you should find the built executable .jar file inside.
+On a successful build you should find a directory named target within the \digital-rain\ directory, and within there you should find the built executable .jar file inside.
 
 ## Credits
 
