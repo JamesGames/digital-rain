@@ -66,13 +66,12 @@ class RainPaneControlPanel extends JPanel {
             for (RainPaneControlListener listener : listeners)
                 listener.setWindowFullScreenOverAllDisplays();
         });
-        buttonPanel.add(SwingHelper.putComponentsInFlowLayoutPanel(FlowLayout.LEFT, false, fullScreen));
-        JButton restoreScreen = new JButton("Restore Screen");
+        JButton restoreScreen = new JButton("Restore");
         restoreScreen.addActionListener(e -> {
             for (RainPaneControlListener listener : listeners)
                 listener.restoreWindowSize();
         });
-        buttonPanel.add(SwingHelper.putComponentsInFlowLayoutPanel(FlowLayout.LEFT, false, restoreScreen));
+        buttonPanel.add(SwingHelper.putComponentsInFlowLayoutPanel(FlowLayout.LEFT, false, fullScreen, restoreScreen));
         this.add(buttonPanel, BorderLayout.CENTER);
     }
 

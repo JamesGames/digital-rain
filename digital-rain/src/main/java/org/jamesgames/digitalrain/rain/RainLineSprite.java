@@ -29,6 +29,12 @@ class RainLineSprite extends Sprite {
     private final Deque<RainDropSprite> reusableCachedRainDropSprites;
 
     /**
+     * Used to modify the x and y coordinate drawing position of a RainDropSprite (offsets retrieved are based on the y
+     * drawing coordinate of the Sprite
+     */
+    private final OffsetAnimationMap offsetAnimationMap;
+
+    /**
      * OrderedStackOfRainDropSprites is used to maintain knowledge of what the order of the child RainDropSprites are
      * visually.
      */
@@ -100,7 +106,7 @@ class RainLineSprite extends Sprite {
      */
     private final Random random = new Random();
 
-    public RainLineSprite(Color rainColor, int fontWidth, int fontHeight,
+    public RainLineSprite(OffsetAnimationMap offsetAnimationMap, Color rainColor, int fontWidth, int fontHeight,
             RainDropCharacterImageStore characterImageStore, int parentSpriteHeight, int maxRainDropsAllowed,
             float yVelocity, boolean renderChildRainDropSpritesByRow) {
         super(fontWidth, 0);
@@ -120,10 +126,12 @@ class RainLineSprite extends Sprite {
         this.parentSpriteHeight = parentSpriteHeight;
         setYVelocity(yVelocity);
         this.rainRainDropColor = rainColor;
+        this.offsetAnimationMap = offsetAnimationMap;
 
 
         // Create and add the RainDropSprite that will always be displayed at the end of the RainDropLine
-        this.bottomRainDropSprite = new RainDropSprite(bottomRainDropColor, fontWidth, fontHeight, characterImageStore);
+        this.bottomRainDropSprite = new RainDropSprite(bottomRainDropColor, fontWidth, fontHeight, characterImageStore,
+                this.offsetAnimationMap);
         addChildSprite(bottomRainDropSprite);
         // current size is one because we only added the bottom rain drop sprite
         this.currentRainDropSpriteCount = 1;
@@ -151,7 +159,8 @@ class RainLineSprite extends Sprite {
     }
 
     private int calculateValidRandomRainDropSpriteCount() {
-        return random.nextInt(Math.min(maxNumberOfRainDropsThatCanFitInParentSpriteHeight(), maxRainDropsAllowed)) + 1;
+        return random.nextInt(
+                Math.min(Math.max(maxNumberOfRainDropsThatCanFitInParentSpriteHeight(), 1), maxRainDropsAllowed)) + 1;
     }
 
     private int maxNumberOfRainDropsThatCanFitInParentSpriteHeight() {
@@ -171,7 +180,8 @@ class RainLineSprite extends Sprite {
     }
 
     private void addReusableCachedSprite(Color rainColor) {
-        reusableCachedRainDropSprites.add(new RainDropSprite(rainColor, fontWidth, fontHeight, characterImageStore));
+        reusableCachedRainDropSprites.add(new RainDropSprite(rainColor, fontWidth, fontHeight, characterImageStore,
+                offsetAnimationMap));
     }
 
     private void addRainDropSprites(Color rainColor, int rainDropSpriteCountToAchieve) {

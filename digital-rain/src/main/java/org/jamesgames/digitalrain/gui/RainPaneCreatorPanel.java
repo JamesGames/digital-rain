@@ -1,5 +1,7 @@
 package org.jamesgames.digitalrain.gui;
 
+import org.jamesgames.digitalrain.gui.jython.OffsetFunctionPanel;
+import org.jamesgames.digitalrain.rain.OffsetAnimationMap;
 import org.jamesgames.digitalrain.rain.RainPaneSprite;
 import org.jamesgames.jamesjavautils.general.ObserverSet;
 import org.jamesgames.jamesjavautils.gui.swing.ColorSetChooser;
@@ -33,6 +35,7 @@ class RainPaneCreatorPanel extends JPanel {
     private final JSpinner fontSizeSpinner = new JSpinner(validFontSizes);
     private final ColorSetChooser colorList = new ColorSetChooser("Digital Rain colors", 100, 100);
     private final JLabel warningLabel = new JLabel();
+    private final OffsetFunctionPanel offsetFunctionChooser = new OffsetFunctionPanel();
 
     public RainPaneCreatorPanel() {
         setLayout(new BorderLayout());
@@ -46,6 +49,7 @@ class RainPaneCreatorPanel extends JPanel {
         boolean isUsingDefaultMonospacedFontAtStart = true;
         useDefaultMonospacedFont.setSelected(true);
         fontComboBox.setEnabled(!isUsingDefaultMonospacedFontAtStart);
+        fontComboBox.setToolTipText("Try to pick a monospaced font for best effect");
 
 
         // Laying out of components
@@ -63,14 +67,13 @@ class RainPaneCreatorPanel extends JPanel {
                 false, new JLabel("Font Size: "), fontSizeSpinner));
         topOfTopPanel.add(SwingHelper.putComponentsInFlowLayoutPanel(FlowLayout.LEFT,
                 false, new JLabel("Note, not all fonts may support the characters used")));
-        topOfTopPanel.add(SwingHelper.putComponentsInFlowLayoutPanel(FlowLayout.LEFT,
-                false, new JLabel("In addition, try to pick a monospaced font")));
         topPanel.add(topOfTopPanel, BorderLayout.NORTH);
         // Center of top
         topPanel.add(colorList, BorderLayout.CENTER);
         // Bottom of top
         JPanel bottomOfTopPanel = new JPanel();
         bottomOfTopPanel.setLayout(new BoxLayout(bottomOfTopPanel, BoxLayout.Y_AXIS));
+        bottomOfTopPanel.add(offsetFunctionChooser);
         JButton createNewRainPaneSprite = new JButton("Create Digital Rain Scene");
         bottomOfTopPanel.add(SwingHelper.putComponentsInFlowLayoutPanel(FlowLayout.CENTER, false,
                 createNewRainPaneSprite), BorderLayout.SOUTH);
@@ -89,11 +92,14 @@ class RainPaneCreatorPanel extends JPanel {
         } else {
             warningLabel.setText("");
             int fontStyle = getFontStyle();
+            OffsetAnimationMap offsetAnimationMap =
+                    new OffsetAnimationMap(offsetFunctionChooser.getSelectedJythonFunction().createFunction());
             RainPaneSprite rainPaneSprite = useDefaultMonospacedFont.isSelected() ?
-                    new RainPaneSprite(colorsSelected, fontStyle, (Integer) fontSizeSpinner.getModel().getValue())
+                    new RainPaneSprite(colorsSelected, fontStyle, (Integer) fontSizeSpinner.getModel().getValue(),
+                            offsetAnimationMap)
                     :
                     new RainPaneSprite(colorsSelected, new Font(fontComboBox.getItemAt(fontComboBox.getSelectedIndex()),
-                            fontStyle, (Integer) fontSizeSpinner.getModel().getValue()));
+                            fontStyle, (Integer) fontSizeSpinner.getModel().getValue()), offsetAnimationMap);
             for (RainPaneCreatorListener listener : listeners) {
                 listener.rainPaneSpriteCreated(rainPaneSprite);
             }

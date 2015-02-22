@@ -45,12 +45,19 @@ public class RainPaneSprite extends Sprite {
      */
     private int closetXCoordinateFromLeftForAnotherRainDropLine;
 
-    public RainPaneSprite(Set<Color> rainColors, int fontStyle, int fontSize) {
-        this(rainColors, new Font(defaultMonoSpacedFond, fontStyle, fontSize));
+    /**
+     * Used to modify the x and y coordinate drawing position of a RainDropSprite (offsets retrieved are based on the y
+     * drawing coordinate of the Sprite
+     */
+    private final OffsetAnimationMap offsetAnimationMap;
+
+    public RainPaneSprite(Set<Color> rainColors, int fontStyle, int fontSize, OffsetAnimationMap offsetAnimationMap) {
+        this(rainColors, new Font(defaultMonoSpacedFond, fontStyle, fontSize), offsetAnimationMap);
     }
 
-    public RainPaneSprite(Set<Color> rainColors, Font rainFont) {
+    public RainPaneSprite(Set<Color> rainColors, Font rainFont, OffsetAnimationMap offsetAnimationMap) {
         super(0, 0);
+        this.offsetAnimationMap = offsetAnimationMap;
         this.availableRainColors = new ArrayList<>(rainColors);
         this.characterImageStore =
                 new RainDropCharacterImageStore(rainColors, RainLineSprite.bottomRainDropColor,
@@ -82,9 +89,10 @@ public class RainPaneSprite extends Sprite {
     }
 
     private Sprite generateRandomRainLineSprite(int xCoordinate) {
-        RainLineSprite s = new RainLineSprite(getRandomRainColorFromSpecifiedList(), fontWidth, fontHeight,
-                characterImageStore,
-                getHeight(), defaultMaxNumberOfRainDropSpritesInLine, yVelocityToUseForRainLines, true);
+        RainLineSprite s =
+                new RainLineSprite(offsetAnimationMap, getRandomRainColorFromSpecifiedList(), fontWidth, fontHeight,
+                        characterImageStore,
+                        getHeight(), defaultMaxNumberOfRainDropSpritesInLine, yVelocityToUseForRainLines, true);
         s.setXCoordinateTopLeft(xCoordinate);
         s.setYCoordinateTopLeft(getRandomRainDropLineYCoordinatePosition(s));
 

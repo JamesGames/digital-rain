@@ -49,6 +49,12 @@ class RainDropSprite extends Sprite {
      */
     private int yCoordinateRenderingOffset;
 
+    /**
+     * Used to modify the x and y coordinate drawing position of a RainDropSprite (offsets retrieved are based on the y
+     * drawing coordinate of the Sprite
+     */
+    private final OffsetAnimationMap offsetAnimationMap;
+
 
     /**
      * @param rainDropColor
@@ -59,12 +65,15 @@ class RainDropSprite extends Sprite {
      *         Height of the font, which is also used as the height of the sprite
      * @param characterImageStore
      *         Object to query backdrop and character images from
+     * @param offsetAnimationMap
+     *         Object to query x and y render animation offsets from
      */
     public RainDropSprite(Color rainDropColor, int fontWidth, int fontHeight,
-            RainDropCharacterImageStore characterImageStore) {
+            RainDropCharacterImageStore characterImageStore, OffsetAnimationMap offsetAnimationMap) {
         super(fontWidth, fontHeight);
         this.characterImageStore = characterImageStore;
         this.rainDropColor = rainDropColor;
+        this.offsetAnimationMap = offsetAnimationMap;
         this.timerToChangeLetterRandomly =
                 new ElapsedTimeTimer(initialShortWaitTimeForCharChangeInMS, longestWaitTimeForCharChangeInMS);
         setRainDropCharToRandomValidChar();
@@ -115,14 +124,13 @@ class RainDropSprite extends Sprite {
     public synchronized void drawUnderChildren(Graphics2D g) {
         Graphics2D spriteGraphics = (Graphics2D) g.create();
 
-        int drawingX = getXDrawingCoordinateTopLeft();
         int drawingY = getYDrawingCoordinateTopLeft() + yCoordinateRenderingOffset;
+        int drawingX = getXDrawingCoordinateTopLeft() + offsetAnimationMap.getXOffset(drawingY);
+        drawingY += offsetAnimationMap.getYOffset(drawingY);
         spriteGraphics.drawImage(characterImageStore.getCharacterImage(rainDropColor, rainDropChar),
                 drawingX, drawingY, null);
 
         spriteGraphics.dispose();
-
-
     }
 
     @Override

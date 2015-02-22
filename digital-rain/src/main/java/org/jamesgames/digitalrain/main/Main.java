@@ -33,8 +33,6 @@ public class Main {
             frame.setTitle("Digital Rain (v" + version +
                     ") | Created by James Murphy | JamesGames.org | JamesGames.org@gmail.com");
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            RainPanel rainPanel = new RainPanel(frame);
-            frame.addContainerListener(rainPanel);
             frame.add(new RainPanel(frame));
 
             frame.setVisible(true);
